@@ -1,5 +1,5 @@
 //
-//  OpenTodoViewController.h
+//  OpenToDoDetailViewController.h
 //  opentodo
 //
 //  Created by Frank Münchmeyer on 27.08.13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OpenTodoViewController : UITableViewController
+@interface OpenToDoDetailViewController : UIViewController
 
 @end
