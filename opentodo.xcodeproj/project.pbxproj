@@ -22,6 +22,8 @@
 		B6BDD39A17CCBF2B006C35FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B6BDD39817CCBF2B006C35FD /* InfoPlist.strings */; };
 		B6BDD39C17CCBF2B006C35FD /* opentodoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD39B17CCBF2B006C35FD /* opentodoTests.m */; };
 		B6BDD3A717CCFEED006C35FD /* OpenToDoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD3A617CCFEED006C35FD /* OpenToDoDetailViewController.m */; };
+		B6BDD3AB17D002C5006C35FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6BDD3AA17D002C5006C35FD /* CoreData.framework */; };
+		B6BDD3AC17D00993006C35FD /* ToDos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		B6BDD39B17CCBF2B006C35FD /* opentodoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = opentodoTests.m; sourceTree = "<group>"; };
 		B6BDD3A517CCFEED006C35FD /* OpenToDoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenToDoDetailViewController.h; sourceTree = "<group>"; };
 		B6BDD3A617CCFEED006C35FD /* OpenToDoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenToDoDetailViewController.m; sourceTree = "<group>"; };
+		B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDos.xcdatamodel; sourceTree = "<group>"; };
+		B6BDD3AA17D002C5006C35FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BDD3AB17D002C5006C35FD /* CoreData.framework in Frameworks */,
 				B6BDD37317CCBF2B006C35FD /* CoreGraphics.framework in Frameworks */,
 				B6BDD37517CCBF2B006C35FD /* UIKit.framework in Frameworks */,
 				B6BDD37117CCBF2B006C35FD /* Foundation.framework in Frameworks */,
@@ -104,6 +109,7 @@
 		B6BDD36F17CCBF2B006C35FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6BDD3AA17D002C5006C35FD /* CoreData.framework */,
 				B6BDD37017CCBF2B006C35FD /* Foundation.framework */,
 				B6BDD37217CCBF2B006C35FD /* CoreGraphics.framework */,
 				B6BDD37417CCBF2B006C35FD /* UIKit.framework */,
@@ -124,6 +130,7 @@
 				B6BDD38617CCBF2B006C35FD /* OpenTodoViewController.m */,
 				B6BDD38817CCBF2B006C35FD /* Images.xcassets */,
 				B6BDD37717CCBF2B006C35FD /* Supporting Files */,
+				B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */,
 			);
 			path = opentodo;
 			sourceTree = "<group>";
@@ -255,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BDD3AC17D00993006C35FD /* ToDos.xcdatamodeld in Sources */,
 				B6BDD38117CCBF2B006C35FD /* OpenTodoAppDelegate.m in Sources */,
 				B6BDD37D17CCBF2B006C35FD /* main.m in Sources */,
 				B6BDD38717CCBF2B006C35FD /* OpenTodoViewController.m in Sources */,
@@ -473,6 +481,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */,
+			);
+			currentVersion = B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */;
+			path = ToDos.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B6BDD36517CCBF2B006C35FD /* Project object */;
 }
