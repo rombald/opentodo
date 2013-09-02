@@ -17,4 +17,6 @@
 
 @property (strong) NSManagedObject *todo;
 
+@property BOOL localStorage;
+
 @end
