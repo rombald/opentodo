@@ -44,6 +44,11 @@
         [self.titleTextField setText:[self.todo valueForKey:@"title"]];
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
     }
+    
+    NSString *prefix = @"Saving to ";
+    if (self.localStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
+    }
 }
 
 - (void)didReceiveMemoryWarning

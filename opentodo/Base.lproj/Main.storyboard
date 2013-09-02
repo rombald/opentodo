@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
     </dependencies>
     <scenes>
-        <!--Open Todo View Controller-->
+        <!--Open Todo View Controller - [Storage]-->
         <scene sceneID="CiG-lY-bH9">
             <objects>
                 <tableViewController id="wAV-Vp-8y3" customClass="OpenTodoViewController" sceneMemberID="viewController">
@@ -20,7 +20,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D1N-0U-3E0">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="[Title]" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D1N-0U-3E0">
                                             <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -39,7 +39,7 @@
                             <outlet property="delegate" destination="wAV-Vp-8y3" id="hZN-Zu-3gF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bUX-HC-J8R">
+                    <navigationItem key="navigationItem" title="[Storage]" id="bUX-HC-J8R">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="L3M-hd-i8N">
                             <connections>
                                 <segue destination="vd3-nc-Tpg" kind="modal" id="Frs-fr-IYa"/>
@@ -108,11 +108,19 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                             </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="[Storage Warning]" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8F1-8C-BVG">
+                                <rect key="frame" x="-1" y="67" width="320" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin_Italic" family="Helvetica Neue" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="descriptionTextView" destination="iPi-14-Foc" id="a4t-gm-c2f"/>
+                        <outlet property="storageWarning" destination="8F1-8C-BVG" id="WY8-qu-y2H"/>
                         <outlet property="titleTextField" destination="NQM-Dw-Ecr" id="Eex-F7-GmW"/>
                     </connections>
                 </viewController>

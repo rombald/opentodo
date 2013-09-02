@@ -11,6 +11,8 @@
 @interface OpenToDoDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet UILabel *storageWarning;
+
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;

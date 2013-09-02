@@ -77,6 +77,8 @@
         self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
         
         [self.tableView reloadData];
+        
+        self.navigationItem.title = @"Local Storage";
     }
 }
 
