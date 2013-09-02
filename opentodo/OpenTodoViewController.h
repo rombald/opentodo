@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OpenTodoViewController : UIViewController
+@interface OpenTodoViewController : UITableViewController
 
 @end
