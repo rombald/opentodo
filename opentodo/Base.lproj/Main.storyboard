@@ -30,7 +30,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="vd3-nc-Tpg" kind="modal" identifier="updateToDo" id="Z5j-Du-T6j"/>
+                                    <segue destination="vd3-nc-Tpg" kind="modal" identifier="UpdateToDo" id="Z5j-Du-T6j"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -59,7 +59,7 @@
                         <viewControllerLayoutGuide type="top" id="gpS-Ud-45P"/>
                         <viewControllerLayoutGuide type="bottom" id="DQb-DK-Ip9"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="fNc-rF-7l9" customClass="Ope">
+                    <view key="view" contentMode="scaleToFill" id="fNc-rF-7l9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -113,7 +113,6 @@
                     </view>
                     <connections>
                         <outlet property="descriptionTextView" destination="iPi-14-Foc" id="a4t-gm-c2f"/>
-                        <outlet property="title" destination="NQM-Dw-Ecr" id="HHA-Xm-Qsv"/>
                         <outlet property="titleTextField" destination="NQM-Dw-Ecr" id="Eex-F7-GmW"/>
                     </connections>
                 </viewController>
