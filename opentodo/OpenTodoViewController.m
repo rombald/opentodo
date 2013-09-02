@@ -15,14 +15,18 @@
 @end
 
 @implementation OpenTodoViewController
+@synthesize localStorage;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+    OpenToDoDetailViewController *destViewController = segue.destinationViewController;
+
     if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
-        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-        OpenToDoDetailViewController *destViewController = segue.destinationViewController;
         destViewController.todo = selectedToDo;
     }
+    
+    destViewController.localStorage = self.localStorage;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -33,21 +37,23 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete object from database
-        [context deleteObject:[self.todos objectAtIndex:indexPath.row]];
+    if (self.localStorage) {
+        NSManagedObjectContext *context = [self managedObjectContext];
         
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
-            return;
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            // Delete object from database
+            [context deleteObject:[self.todos objectAtIndex:indexPath.row]];
+            
+            NSError *error = nil;
+            if (![context save:&error]) {
+                NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+                return;
+            }
+            
+            // Remove device from table view
+            [self.todos removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        
-        // Remove device from table view
-        [self.todos removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
@@ -64,12 +70,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ToDo"];
-    self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    [self.tableView reloadData];
+
+    if (self.localStorage) {
+        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ToDo"];
+        self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+        
+        [self.tableView reloadData];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -89,8 +97,10 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSManagedObject *todo = [self.todos objectAtIndex:indexPath.row];
-    [cell.textLabel setText:[NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]]];
+    if (self.localStorage) {
+        NSManagedObject *todo = [self.todos objectAtIndex:indexPath.row];
+        [cell.textLabel setText:[NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]]];
+    }
     
     return cell;
 }
