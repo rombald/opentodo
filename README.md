@@ -6,7 +6,7 @@ The goal is, that everybody can add additional storages (e.g. Evernote) for the 
 
 ## This App will be save the ToDo's in:
 
- * LocalStorage
+ * CoreData (local storage)
  * iCloud
  * [Trello](http://trello.com)
  
