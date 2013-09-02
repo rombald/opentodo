@@ -120,10 +120,10 @@
             </objects>
             <point key="canvasLocation" x="1298" y="146"/>
         </scene>
-        <!--View Controller-->
+        <!--Open Todo Select Storage View Controller-->
         <scene sceneID="S59-7O-vnW">
             <objects>
-                <viewController id="pan-X9-O0g" sceneMemberID="viewController">
+                <viewController id="pan-X9-O0g" customClass="OpenTodoSelectStorageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zlC-7w-I8w"/>
                         <viewControllerLayoutGuide type="bottom" id="Jdb-Bj-UJB"/>
@@ -138,7 +138,7 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                 <state key="normal" title="Local Storage"/>
                                 <connections>
-                                    <segue destination="pxc-kr-JBR" kind="modal" id="JKO-3V-WoB"/>
+                                    <segue destination="pxc-kr-JBR" kind="modal" identifier="SelectStorage" modalTransitionStyle="flipHorizontal" id="JKO-3V-WoB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMI-PZ-bMS">
