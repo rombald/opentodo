@@ -15,6 +15,7 @@
 @implementation OpenToDoDetailViewController
 @synthesize todo;
 
+@synthesize localStorage;
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -43,6 +44,11 @@
         [self.titleTextField setText:[self.todo valueForKey:@"title"]];
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
     }
+    
+    NSString *prefix = @"Saving to ";
+    if (self.localStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,21 +62,23 @@
 }
 
 - (IBAction)save:(id)sender {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    if (self.todo) {
-        [self.todo setValue:self.titleTextField.text forKey:@"title"];
-        [self.todo setValue:self.descriptionTextView.text forKey:@"desc"];
-    } else {
-        NSManagedObjectModel *newToDo = [NSEntityDescription insertNewObjectForEntityForName:@"ToDo" inManagedObjectContext:context];
-        [newToDo setValue:self.titleTextField.text forKey:@"title"];
-        [newToDo setValue:self.descriptionTextView.text forKey:@"desc"];
-    }
-    
-    NSError *error = nil;
-    // Save the object to persistent store
-    if (![context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    if (self.localStorage) {
+        NSManagedObjectContext *context = [self managedObjectContext];
+        
+        if (self.todo) {
+            [self.todo setValue:self.titleTextField.text forKey:@"title"];
+            [self.todo setValue:self.descriptionTextView.text forKey:@"desc"];
+        } else {
+            NSManagedObjectModel *newToDo = [NSEntityDescription insertNewObjectForEntityForName:@"ToDo" inManagedObjectContext:context];
+            [newToDo setValue:self.titleTextField.text forKey:@"title"];
+            [newToDo setValue:self.descriptionTextView.text forKey:@"desc"];
+        }
+        
+        NSError *error = nil;
+        // Save the object to persistent store
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];

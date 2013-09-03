@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
     </dependencies>
     <scenes>
-        <!--Open Todo View Controller-->
+        <!--Open Todo View Controller - [Storage]-->
         <scene sceneID="CiG-lY-bH9">
             <objects>
                 <tableViewController id="wAV-Vp-8y3" customClass="OpenTodoViewController" sceneMemberID="viewController">
@@ -20,7 +20,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D1N-0U-3E0">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="[Title]" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D1N-0U-3E0">
                                             <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -39,17 +39,17 @@
                             <outlet property="delegate" destination="wAV-Vp-8y3" id="hZN-Zu-3gF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bUX-HC-J8R">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="L3M-hd-i8N">
+                    <navigationItem key="navigationItem" title="[Storage]" id="VfA-ax-b30">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vhI-P2-Ci6">
                             <connections>
-                                <segue destination="vd3-nc-Tpg" kind="modal" id="Frs-fr-IYa"/>
+                                <segue destination="vd3-nc-Tpg" kind="modal" identifier="AddToDo" id="k3x-hZ-dA2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mhM-Hr-MTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="146"/>
+            <point key="canvasLocation" x="1378" y="146"/>
         </scene>
         <!--Open To Do Detail View Controller-->
         <scene sceneID="Te1-qc-BqS">
@@ -108,35 +108,86 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                             </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="[Storage Warning]" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8F1-8C-BVG">
+                                <rect key="frame" x="-1" y="67" width="320" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin_Italic" family="Helvetica Neue" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="descriptionTextView" destination="iPi-14-Foc" id="a4t-gm-c2f"/>
+                        <outlet property="storageWarning" destination="8F1-8C-BVG" id="WY8-qu-y2H"/>
                         <outlet property="titleTextField" destination="NQM-Dw-Ecr" id="Eex-F7-GmW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ze-3A-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1298" y="146"/>
+            <point key="canvasLocation" x="1824" y="146"/>
+        </scene>
+        <!--Open Todo Select Storage View Controller-->
+        <scene sceneID="S59-7O-vnW">
+            <objects>
+                <viewController id="pan-X9-O0g" customClass="OpenTodoSelectStorageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zlC-7w-I8w"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jdb-Bj-UJB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YUP-b9-Ra3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DF5-Qt-oX9">
+                                <rect key="frame" x="67" y="141" width="187" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <state key="normal" title="Local Storage"/>
+                                <connections>
+                                    <segue destination="wAV-Vp-8y3" kind="push" identifier="SelectStorage" id="d4N-vm-b0L"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMI-PZ-bMS">
+                                <rect key="frame" x="117" y="260" width="87" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <state key="normal" title="iCloud"/>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q89-vk-WwS">
+                                <rect key="frame" x="125" y="377" width="71" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <state key="normal" title="Trello"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="frz-Mf-aRF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RA1-9m-S3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="896" y="146"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8cY-i2-jaR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pxc-kr-JBR" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="CxI-qt-O6i"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Spc-ZN-FjF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="wAV-Vp-8y3" kind="relationship" relationship="rootViewController" id="O54-bh-e4P"/>
+                        <segue destination="pan-X9-O0g" kind="relationship" relationship="rootViewController" id="Edp-xU-T6s"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ujS-E0-hre" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="326" y="146"/>
+            <point key="canvasLocation" x="382" y="146"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -145,6 +196,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Z5j-Du-T6j"/>
+        <segue reference="k3x-hZ-dA2"/>
     </inferredMetricsTieBreakers>
 </document>

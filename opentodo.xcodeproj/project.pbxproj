@@ -24,6 +24,7 @@
 		B6BDD3A717CCFEED006C35FD /* OpenToDoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD3A617CCFEED006C35FD /* OpenToDoDetailViewController.m */; };
 		B6BDD3AB17D002C5006C35FD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6BDD3AA17D002C5006C35FD /* CoreData.framework */; };
 		B6BDD3AC17D00993006C35FD /* ToDos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */; };
+		B6BDD3AF17D54083006C35FD /* OpenTodoSelectStorageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		B6BDD3A617CCFEED006C35FD /* OpenToDoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenToDoDetailViewController.m; sourceTree = "<group>"; };
 		B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDos.xcdatamodel; sourceTree = "<group>"; };
 		B6BDD3AA17D002C5006C35FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B6BDD3AD17D54083006C35FD /* OpenTodoSelectStorageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTodoSelectStorageViewController.h; sourceTree = "<group>"; };
+		B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTodoSelectStorageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +134,8 @@
 				B6BDD38817CCBF2B006C35FD /* Images.xcassets */,
 				B6BDD37717CCBF2B006C35FD /* Supporting Files */,
 				B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */,
+				B6BDD3AD17D54083006C35FD /* OpenTodoSelectStorageViewController.h */,
+				B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */,
 			);
 			path = opentodo;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BDD3AF17D54083006C35FD /* OpenTodoSelectStorageViewController.m in Sources */,
 				B6BDD3AC17D00993006C35FD /* ToDos.xcdatamodeld in Sources */,
 				B6BDD38117CCBF2B006C35FD /* OpenTodoAppDelegate.m in Sources */,
 				B6BDD37D17CCBF2B006C35FD /* main.m in Sources */,
