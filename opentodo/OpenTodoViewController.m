@@ -19,10 +19,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
     if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
+        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
         destViewController.todo = selectedToDo;
     }
     
