@@ -29,6 +29,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,10 +42,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"SelectStorage"]) {
-        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-        OpenTodoViewController *opentodoview = (OpenTodoViewController *)navController.topViewController;
+        OpenTodoViewController *opentodoview = segue.destinationViewController;
         opentodoview.localStorage = YES;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
 }
 
 @end
