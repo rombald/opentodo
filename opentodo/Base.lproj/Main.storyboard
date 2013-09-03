@@ -39,7 +39,13 @@
                             <outlet property="delegate" destination="wAV-Vp-8y3" id="hZN-Zu-3gF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="[Storage]" id="syG-HX-BMi"/>
+                    <navigationItem key="navigationItem" title="[Storage]" id="VfA-ax-b30">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vhI-P2-Ci6">
+                            <connections>
+                                <segue destination="vd3-nc-Tpg" kind="modal" identifier="AddToDo" id="k3x-hZ-dA2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mhM-Hr-MTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -189,4 +195,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="k3x-hZ-dA2"/>
+    </inferredMetricsTieBreakers>
 </document>
