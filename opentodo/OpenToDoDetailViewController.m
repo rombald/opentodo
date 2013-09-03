@@ -43,6 +43,7 @@
     if (self.todo) {
         [self.titleTextField setText:[self.todo valueForKey:@"title"]];
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
+        [self.labelTextField setText:[self.todo valueForKey:@"label"]];
     }
     
     NSString *prefix = @"Saving to ";
@@ -68,10 +69,12 @@
         if (self.todo) {
             [self.todo setValue:self.titleTextField.text forKey:@"title"];
             [self.todo setValue:self.descriptionTextView.text forKey:@"desc"];
+            [self.todo setValue:self.labelTextField.text forKey:@"label"];
         } else {
             NSManagedObjectModel *newToDo = [NSEntityDescription insertNewObjectForEntityForName:@"ToDo" inManagedObjectContext:context];
             [newToDo setValue:self.titleTextField.text forKey:@"title"];
             [newToDo setValue:self.descriptionTextView.text forKey:@"desc"];
+            [newToDo setValue:self.labelTextField.text forKey:@"label"];
         }
         
         NSError *error = nil;
