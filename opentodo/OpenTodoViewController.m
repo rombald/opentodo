@@ -78,7 +78,7 @@
         
         [self.tableView reloadData];
         
-        self.navigationItem.title = @"Local Storage";
+        [[self navigationController] setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -111,6 +111,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    if (self.localStorage) {
+        self.navigationItem.title = @"Local Storage";
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,5 +122,4 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end
