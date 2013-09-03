@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface OpenTodoViewController : UITableViewController
+@property BOOL localStorage;
+
+
 
 @end
