@@ -165,6 +165,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </view>
                     <connections>
                         <outlet property="descriptionTextView" destination="iPi-14-Foc" id="a4t-gm-c2f"/>
+                        <outlet property="dueTime" destination="1OZ-aP-2H9" id="w2r-eA-WXJ"/>
                         <outlet property="labelTextField" destination="UIR-ji-vzX" id="tK3-Xh-OV5"/>
                         <outlet property="storageWarning" destination="8F1-8C-BVG" id="WY8-qu-y2H"/>
                         <outlet property="titleTextField" destination="NQM-Dw-Ecr" id="Eex-F7-GmW"/>
