@@ -44,6 +44,7 @@
         [self.titleTextField setText:[self.todo valueForKey:@"title"]];
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
         [self.labelTextField setText:[self.todo valueForKey:@"label"]];
+        [self.dueTime setDate:[self.todo valueForKey:@"due_time"]];
     }
     
     NSString *prefix = @"Saving to ";
@@ -70,11 +71,13 @@
             [self.todo setValue:self.titleTextField.text forKey:@"title"];
             [self.todo setValue:self.descriptionTextView.text forKey:@"desc"];
             [self.todo setValue:self.labelTextField.text forKey:@"label"];
+            [self.todo setValue:self.dueTime.date forKey:@"due_time"];
         } else {
             NSManagedObjectModel *newToDo = [NSEntityDescription insertNewObjectForEntityForName:@"ToDo" inManagedObjectContext:context];
             [newToDo setValue:self.titleTextField.text forKey:@"title"];
             [newToDo setValue:self.descriptionTextView.text forKey:@"desc"];
             [newToDo setValue:self.labelTextField.text forKey:@"label"];
+            [newToDo setValue:self.dueTime.date forKey:@"due_time"];
         }
         
         NSError *error = nil;
