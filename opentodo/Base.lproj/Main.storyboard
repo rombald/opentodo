@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4488.2" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pan-X9-O0g">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4488.2" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pxc-kr-JBR">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
     </dependencies>
@@ -39,17 +39,11 @@
                             <outlet property="delegate" destination="wAV-Vp-8y3" id="hZN-Zu-3gF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="[Storage]" id="bUX-HC-J8R">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="L3M-hd-i8N">
-                            <connections>
-                                <segue destination="vd3-nc-Tpg" kind="modal" id="Frs-fr-IYa"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="[Storage]" id="syG-HX-BMi"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mhM-Hr-MTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="146"/>
+            <point key="canvasLocation" x="1378" y="146"/>
         </scene>
         <!--Open To Do Detail View Controller-->
         <scene sceneID="Te1-qc-BqS">
@@ -126,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ze-3A-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1298" y="146"/>
+            <point key="canvasLocation" x="1824" y="146"/>
         </scene>
         <!--Open Todo Select Storage View Controller-->
         <scene sceneID="S59-7O-vnW">
@@ -146,7 +140,7 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                 <state key="normal" title="Local Storage"/>
                                 <connections>
-                                    <segue destination="pxc-kr-JBR" kind="modal" identifier="SelectStorage" modalTransitionStyle="flipHorizontal" id="JKO-3V-WoB"/>
+                                    <segue destination="wAV-Vp-8y3" kind="push" identifier="SelectStorage" id="d4N-vm-b0L"/>
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMI-PZ-bMS">
@@ -164,28 +158,30 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="frz-Mf-aRF"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA1-9m-S3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-131" y="146"/>
+            <point key="canvasLocation" x="896" y="146"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8cY-i2-jaR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pxc-kr-JBR" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="CxI-qt-O6i"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Spc-ZN-FjF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="wAV-Vp-8y3" kind="relationship" relationship="rootViewController" id="O54-bh-e4P"/>
+                        <segue destination="pan-X9-O0g" kind="relationship" relationship="rootViewController" id="Edp-xU-T6s"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ujS-E0-hre" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="326" y="146"/>
+            <point key="canvasLocation" x="382" y="146"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -193,7 +189,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="Z5j-Du-T6j"/>
-    </inferredMetricsTieBreakers>
 </document>
