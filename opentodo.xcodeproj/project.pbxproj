@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B62DFC0B17D92FC6002781D4 /* opentodo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = opentodo.entitlements; sourceTree = "<group>"; };
 		B6BDD36D17CCBF2B006C35FD /* opentodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = opentodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6BDD37017CCBF2B006C35FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B6BDD37217CCBF2B006C35FD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,7 +65,7 @@
 		B6BDD3AD17D54083006C35FD /* OpenTodoSelectStorageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTodoSelectStorageViewController.h; sourceTree = "<group>"; };
 		B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTodoSelectStorageViewController.m; sourceTree = "<group>"; };
 		B6BDD3B017D68845006C35FD /* ToDos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ToDos 2.xcdatamodel"; sourceTree = "<group>"; };
-		B6BDD3B217D69BB5006C35FD /* ToDos3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = ToDos3.xcdatamodel; sourceTree = "<group>"; };
+		B6BDD3B217D69BB5006C35FD /* ToDos3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDos3.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +127,7 @@
 		B6BDD37617CCBF2B006C35FD /* opentodo */ = {
 			isa = PBXGroup;
 			children = (
+				B62DFC0B17D92FC6002781D4 /* opentodo.entitlements */,
 				B6BDD37F17CCBF2B006C35FD /* OpenTodoAppDelegate.h */,
 				B6BDD38017CCBF2B006C35FD /* OpenTodoAppDelegate.m */,
 				B6BDD38217CCBF2B006C35FD /* Main.storyboard */,
@@ -219,6 +221,14 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Frank Münchmeyer";
 				TargetAttributes = {
+					B6BDD36C17CCBF2B006C35FD = {
+						DevelopmentTeam = 68LTJHJ37B;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
 					B6BDD38D17CCBF2B006C35FD = {
 						TestTargetID = B6BDD36C17CCBF2B006C35FD;
 					};
@@ -397,10 +407,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = opentodo/opentodo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opentodo/opentodo-Prefix.pch";
 				INFOPLIST_FILE = "opentodo/opentodo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -410,10 +424,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = opentodo/opentodo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "opentodo/opentodo-Prefix.pch";
 				INFOPLIST_FILE = "opentodo/opentodo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
