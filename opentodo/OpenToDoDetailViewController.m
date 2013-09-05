@@ -87,6 +87,22 @@
         }
     }
     
+    [self.descriptionTextView resignFirstResponder];
+    
+    // Get the current date
+    NSDate *pickerDate = [self.dueTime date];
+    
+    // Schedule the notification
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = pickerDate;
+    localNotification.alertBody = self.titleTextField.text;
+    localNotification.alertAction = @"Show me the item";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    // Dismiss the view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end
