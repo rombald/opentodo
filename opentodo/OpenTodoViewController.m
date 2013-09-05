@@ -16,6 +16,7 @@
 
 @implementation OpenTodoViewController
 @synthesize localStorage;
+@synthesize iCloudStorage;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -27,6 +28,7 @@
     }
     
     destViewController.localStorage = self.localStorage;
+    destViewController.iCloudStorage = self.iCloudStorage;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -54,6 +56,8 @@
             [self.todos removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
+    } else if (self.iCloudStorage) {
+        
     }
 }
 
@@ -77,9 +81,11 @@
         self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
         
         [self.tableView reloadData];
+    } else if (self.iCloudStorage) {
         
-        [[self navigationController] setNavigationBarHidden:NO animated:YES];
     }
+
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -107,6 +113,8 @@
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
         label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+    } else if (self.iCloudStorage) {
+        
     }
     
     return cell;
@@ -119,6 +127,8 @@
     
     if (self.localStorage) {
         self.navigationItem.title = @"Local Storage";
+    } else if (self.iCloudStorage) {
+        self.navigationItem.title = @"iCloud Storage";
     }
 }
 

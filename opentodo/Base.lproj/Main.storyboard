@@ -202,7 +202,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                 <state key="normal" title="iCloud"/>
                                 <connections>
-                                    <segue destination="wAV-Vp-8y3" kind="push" identifier="SelectStorageIcloud" id="F2W-Ov-Fk0"/>
+                                    <segue destination="wAV-Vp-8y3" kind="push" identifier="SelectStorageiCloud" id="F2W-Ov-Fk0"/>
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q89-vk-WwS">

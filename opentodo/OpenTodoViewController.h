@@ -10,7 +10,6 @@
 
 @interface OpenTodoViewController : UITableViewController
 @property BOOL localStorage;
-
-
+@property BOOL iCloudStorage;
 
 @end

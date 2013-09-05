@@ -41,9 +41,12 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    OpenTodoViewController *opentodoview = segue.destinationViewController;
+
     if ([[segue identifier] isEqualToString:@"SelectStorageLocalStorage"]) {
-        OpenTodoViewController *opentodoview = segue.destinationViewController;
         opentodoview.localStorage = YES;
+    } else if ([[segue identifier] isEqualToString:@"SelectStorageiCloud"]) {
+        opentodoview.iCloudStorage = YES;
     }
 }
 

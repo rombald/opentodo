@@ -16,6 +16,7 @@
 @synthesize todo;
 
 @synthesize localStorage;
+@synthesize iCloudStorage;
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -50,6 +51,8 @@
     NSString *prefix = @"Saving to ";
     if (self.localStorage) {
         [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
+    } else if (self.iCloudStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"iCloud Storage"]];
     }
 }
 
@@ -85,6 +88,8 @@
         if (![context save:&error]) {
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }
+    } else if (self.iCloudStorage) {
+        
     }
     
     [self.descriptionTextView resignFirstResponder];
