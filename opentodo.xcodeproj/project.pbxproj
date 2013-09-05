@@ -63,6 +63,8 @@
 		B6BDD3AA17D002C5006C35FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B6BDD3AD17D54083006C35FD /* OpenTodoSelectStorageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTodoSelectStorageViewController.h; sourceTree = "<group>"; };
 		B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTodoSelectStorageViewController.m; sourceTree = "<group>"; };
+		B6BDD3B017D68845006C35FD /* ToDos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ToDos 2.xcdatamodel"; sourceTree = "<group>"; };
+		B6BDD3B217D69BB5006C35FD /* ToDos3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = ToDos3.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,11 +133,11 @@
 				B6BDD3A617CCFEED006C35FD /* OpenToDoDetailViewController.m */,
 				B6BDD38517CCBF2B006C35FD /* OpenTodoViewController.h */,
 				B6BDD38617CCBF2B006C35FD /* OpenTodoViewController.m */,
-				B6BDD38817CCBF2B006C35FD /* Images.xcassets */,
-				B6BDD37717CCBF2B006C35FD /* Supporting Files */,
-				B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */,
 				B6BDD3AD17D54083006C35FD /* OpenTodoSelectStorageViewController.h */,
 				B6BDD3AE17D54083006C35FD /* OpenTodoSelectStorageViewController.m */,
+				B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */,
+				B6BDD38817CCBF2B006C35FD /* Images.xcassets */,
+				B6BDD37717CCBF2B006C35FD /* Supporting Files */,
 			);
 			path = opentodo;
 			sourceTree = "<group>";
@@ -492,9 +494,11 @@
 		B6BDD3A817D0024C006C35FD /* ToDos.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B6BDD3B017D68845006C35FD /* ToDos 2.xcdatamodel */,
+				B6BDD3B217D69BB5006C35FD /* ToDos3.xcdatamodel */,
 				B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */,
 			);
-			currentVersion = B6BDD3A917D0024C006C35FD /* ToDos.xcdatamodel */;
+			currentVersion = B6BDD3B217D69BB5006C35FD /* ToDos3.xcdatamodel */;
 			path = ToDos.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

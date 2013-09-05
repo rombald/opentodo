@@ -19,10 +19,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
     if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
+        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
         destViewController.todo = selectedToDo;
     }
     
@@ -101,7 +101,12 @@
     
     if (self.localStorage) {
         NSManagedObject *todo = [self.todos objectAtIndex:indexPath.row];
-        [cell.textLabel setText:[NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]]];
+        
+        UILabel *title = (UILabel *)[cell viewWithTag:1];
+        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]];
+        
+        UILabel *label = (UILabel *)[cell viewWithTag:2];
+        label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
     }
     
     return cell;

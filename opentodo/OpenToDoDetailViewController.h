@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UILabel *storageWarning;
+@property (weak, nonatomic) IBOutlet UITextField *labelTextField;
+@property (weak, nonatomic) IBOutlet UIDatePicker *dueTime;
 
 
 - (IBAction)cancel:(id)sender;
