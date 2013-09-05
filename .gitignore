@@ -4,4 +4,4 @@ opentodoTests/opentodoTests-Info.plist
 opentodo/opentodo-Info.plist
 .DS_Store
 opentodo.xcodeproj/project.xcworkspace/xcshareddata/opentodo.xccheckout
-opentodo/opentodo.entitlements
+opentodo/*.entitlements
