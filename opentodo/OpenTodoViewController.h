@@ -12,4 +12,6 @@
 @property BOOL localStorage;
 @property BOOL iCloudStorage;
 
+@property (strong, nonatomic) NSMutableArray *iCloudToDos;
+
 @end

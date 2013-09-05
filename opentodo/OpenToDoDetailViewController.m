@@ -89,7 +89,7 @@
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }
     } else if (self.iCloudStorage) {
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"New ToDo" object:self userInfo:[NSDictionary dictionaryWithObject:self.titleTextField.text forKey:@"ToDo"]];
     }
     
     [self.descriptionTextView resignFirstResponder];
