@@ -89,7 +89,25 @@
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }
     } else if (self.iCloudStorage) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"New ToDo" object:self userInfo:[NSDictionary dictionaryWithObject:self.titleTextField.text forKey:@"ToDo"]];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *stringDueTime = [dateFormatter stringFromDate:self.dueTime.date];
+
+        NSDictionary *newTodo = [NSDictionary dictionaryWithObject:[
+                                                                    NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    self.titleTextField.text, @"title",
+                                                                    self.descriptionTextView.text, @"desc",
+                                                                    self.labelTextField.text, @"label",
+                                                                    stringDueTime, @"due_time",
+                                                                    nil
+                                                                    ]
+                                                            forKey:@"ToDo"];
+
+        NSString *jsonNewTodo = [[NSString alloc] initWithData:
+                                 [NSJSONSerialization dataWithJSONObject:newTodo options:0 error:nil]
+                                                      encoding:NSUTF8StringEncoding];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"New ToDo" object:self userInfo:[NSDictionary dictionaryWithObject:jsonNewTodo forKey:@"ToDo"]];
     }
     
     [self.descriptionTextView resignFirstResponder];

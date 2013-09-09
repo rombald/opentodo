@@ -22,9 +22,16 @@
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
-    if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
+    if ([[segue identifier] isEqualToString:@"UpdateToDo"] && !self.iCloudStorage) {
         NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
         destViewController.todo = selectedToDo;
+    } else if ([[segue identifier] isEqualToString:@"UpdateToDo"] && self.iCloudStorage) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                          message:@"It's not possible to edit an iCloud Todo!"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
     }
     
     destViewController.localStorage = self.localStorage;
@@ -58,9 +65,9 @@
         }
     } else if (self.iCloudStorage) {
         if (editingStyle == UITableViewCellEditingStyleDelete) {
-            [self.todos removeObjectAtIndex:indexPath.row];
+            [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey:@"ICLOUD_TODOS"];
+            self.todos = self.iCloudToDos;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-            [[NSUbiquitousKeyValueStore defaultStore] setArray:self.todos forKey:@"ICLOUD_TODOS"];
         }
     }
 }
@@ -86,7 +93,21 @@
         
         [self.tableView reloadData];
     } else if (self.iCloudStorage) {
+        //  Observer to catch changes from iCloud
+        NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(storeDidChange:)
+                                                     name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+                                                   object:store];
         
+        [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+        
+        // Observer to catch the local changes
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didAddNewToDo:)
+                                                     name:@"New ToDo"
+                                                   object:nil];
+        self.todos = self.iCloudToDos;
     }
 
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
@@ -108,9 +129,17 @@
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    if (self.localStorage || self.iCloudStorage) {
+
+    if (self.localStorage) {
         NSManagedObject *todo = [self.todos objectAtIndex:indexPath.row];
+
+        UILabel *title = (UILabel *)[cell viewWithTag:1];
+        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]];
+        
+        UILabel *label = (UILabel *)[cell viewWithTag:2];
+        label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+    } else if (self.iCloudStorage) {
+        NSMutableArray *todo = [self.todos valueForKey:@"ToDo"];
 
         UILabel *title = (UILabel *)[cell viewWithTag:1];
         title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]];
@@ -125,10 +154,16 @@
 - (NSArray *)iCloudToDos
 {
     if (_iCloudToDos) {
-        return _iCloudToDos;
+        //return _iCloudToDos;
     }
 
     _iCloudToDos = [[[NSUbiquitousKeyValueStore defaultStore] arrayForKey:@"ICLOUD_TODOS"] mutableCopy];
+    if (_iCloudToDos) {
+        NSString* todoString = _iCloudToDos.firstObject;
+        NSData* todoData = [todoString dataUsingEncoding:NSUTF8StringEncoding];
+        _iCloudToDos = [NSJSONSerialization JSONObjectWithData:todoData options:NSJSONReadingMutableLeaves error:nil];
+    }
+
     if (!_iCloudToDos) {
         _iCloudToDos = [NSMutableArray array];
     }
@@ -161,6 +196,8 @@
                                                  selector:@selector(didAddNewToDo:)
                                                      name:@"New ToDo"
                                                    object:nil];
+
+        self.todos = self.iCloudToDos;
     }
 }
 
@@ -176,10 +213,10 @@
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString *noteStr = [userInfo valueForKey:@"ToDo"];
-    [self.todos addObject:noteStr];
+    [self.iCloudToDos addObject:noteStr];
     
     // Update data on the iCloud
-    [[NSUbiquitousKeyValueStore defaultStore] setArray:self.todos forKey:@"ICLOUD_TODOS"];
+    [[NSUbiquitousKeyValueStore defaultStore] setArray:self.iCloudToDos forKey:@"ICLOUD_TODOS"];
     
     // Reload the table view to show changes
     [self.tableView reloadData];
@@ -190,7 +227,7 @@
 - (void)storeDidChange:(NSNotification *)notification
 {
     // Retrieve the changes from iCloud
-    _todos = [[[NSUbiquitousKeyValueStore defaultStore] arrayForKey:@"ICLOUD_TODOS"] mutableCopy];
+    _iCloudToDos = [[[NSUbiquitousKeyValueStore defaultStore] arrayForKey:@"ICLOUD_TODOS"] mutableCopy];
     
     // Reload the table view to show changes
     [self.tableView reloadData];
