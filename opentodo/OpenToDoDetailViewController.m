@@ -16,6 +16,7 @@
 @synthesize todo;
 
 @synthesize localStorage;
+@synthesize iCloudStorage;
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -50,6 +51,8 @@
     NSString *prefix = @"Saving to ";
     if (self.localStorage) {
         [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
+    } else if (self.iCloudStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"iCloud Storage"]];
     }
 }
 
@@ -85,6 +88,26 @@
         if (![context save:&error]) {
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }
+    } else if (self.iCloudStorage) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *stringDueTime = [dateFormatter stringFromDate:self.dueTime.date];
+
+        NSDictionary *newTodo = [NSDictionary dictionaryWithObject:[
+                                                                    NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    self.titleTextField.text, @"title",
+                                                                    self.descriptionTextView.text, @"desc",
+                                                                    self.labelTextField.text, @"label",
+                                                                    stringDueTime, @"due_time",
+                                                                    nil
+                                                                    ]
+                                                            forKey:@"ToDo"];
+
+        NSString *jsonNewTodo = [[NSString alloc] initWithData:
+                                 [NSJSONSerialization dataWithJSONObject:newTodo options:0 error:nil]
+                                                      encoding:NSUTF8StringEncoding];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"New ToDo" object:self userInfo:[NSDictionary dictionaryWithObject:jsonNewTodo forKey:@"ToDo"]];
     }
     
     [self.descriptionTextView resignFirstResponder];

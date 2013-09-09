@@ -22,5 +22,6 @@
 @property (strong) NSManagedObject *todo;
 
 @property BOOL localStorage;
+@property BOOL iCloudStorage;
 
 @end
