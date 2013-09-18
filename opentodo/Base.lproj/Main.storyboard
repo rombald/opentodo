@@ -267,10 +267,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="1378" y="827"/>
         </scene>
-        <!--View Controller - Select Trello Board-->
+        <!--Open Todo Trello Board Selection View Controller - Select Trello Board-->
         <scene sceneID="dpC-zc-3yc">
             <objects>
-                <viewController id="KOe-g1-vJO" sceneMemberID="viewController">
+                <viewController id="KOe-g1-vJO" customClass="OpenTodoTrelloBoardSelectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="36m-LV-dre"/>
                         <viewControllerLayoutGuide type="bottom" id="bb7-Dk-Z3X"/>
@@ -300,10 +300,49 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" title="Select Trello Board" id="bx7-ZY-7i1">
                         <barButtonItem key="backBarButtonItem" title="Auth" id="K6W-pU-yQL"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="ZDk-mg-AKz" kind="push" id="Lvu-Du-MK9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VJU-zE-GOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1824" y="827"/>
+        </scene>
+        <!--Open Todo Trello Row Selection View Controller - Select Trello Row-->
+        <scene sceneID="mKX-7e-LyS">
+            <objects>
+                <viewController id="ZDk-mg-AKz" customClass="OpenTodoTrelloRowSelectionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oW5-UI-8yZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="xPw-MB-rUB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KxM-0m-koV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hql-NB-crM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wmA-iv-hq7">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wmA-iv-hq7" id="oaj-tV-1rH">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Select Trello Row" id="Byc-1a-LWL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a3t-Lz-V8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2273" y="827"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8cY-i2-jaR">
