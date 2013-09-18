@@ -33,7 +33,7 @@
     [super viewDidLoad];
 
     webView.delegate = self;
-
+    
     NSURL *url = [NSURL URLWithString:@"https://trello.com/1/authorize?key=9305fdfeca9d8484d1674a628e368137&expiration=never&name=OpenTodo&response_type=token&scope=read,write"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
@@ -53,7 +53,26 @@
     [spinner setHidden:YES];
 
     NSString *htmlBody = [web_view stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
-    self.trelloToken = [htmlBody substringWithRange:NSMakeRange(131, 66)];
+    self.trelloToken = [[htmlBody substringWithRange:NSMakeRange(133, 65)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSString *appKey = @"9305fdfeca9d8484d1674a628e368137";
+    NSString *trelloTest = [NSString stringWithFormat:@"https://trello.com/1/members/my/boards?key=%@&token=%@", appKey, self.trelloToken];
+    
+    NSURL *trelloTestUrl = [NSURL URLWithString:trelloTest];
+    NSURLRequest *request = [NSURLRequest requestWithURL:trelloTestUrl];
+    
+    NSURLResponse *response;
+    NSError *error;
+    //send it synchronous
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+
+    if (!error) {
+        [self performSegueWithIdentifier:@"selectTrelloPrefs" sender:self];
+    } else {
+        NSLog(@"Error: %@", error);
+        NSLog(@"Response from server = %@", responseString);
+    }
 }
 
 - (void)didReceiveMemoryWarning
