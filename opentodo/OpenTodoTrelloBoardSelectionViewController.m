@@ -13,6 +13,10 @@
 @end
 
 @implementation OpenTodoTrelloBoardSelectionViewController
+@synthesize jsonTrelloData;
+@synthesize trelloToken;
+@synthesize trelloAppKey;
+@synthesize todos;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,12 +31,33 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.todos = [NSJSONSerialization JSONObjectWithData:self.jsonTrelloData options:NSJSONReadingMutableLeaves error:nil];
+    NSLog(@"%@", self.todos);
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.todos.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+   
+    return cell;
 }
 
 @end

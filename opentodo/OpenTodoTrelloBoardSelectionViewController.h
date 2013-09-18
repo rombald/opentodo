@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface OpenTodoTrelloBoardSelectionViewController : UIViewController
+@property NSData *jsonTrelloData;
+@property NSString *trelloToken;
+@property NSString *trelloAppKey;
+@property NSMutableArray *todos;
 
 @end
