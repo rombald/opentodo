@@ -14,6 +14,10 @@
 
 @implementation OpenTodoTrelloAuthViewController
 @synthesize webView;
+@synthesize spinnerBackground;
+@synthesize spinner;
+
+@synthesize trelloToken;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,10 +41,19 @@
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)web_view
+{
+    [spinnerBackground setHidden:NO];
+    [spinner setHidden:NO];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)web_view
 {
+    [spinnerBackground setHidden:YES];
+    [spinner setHidden:YES];
+
     NSString *htmlBody = [web_view stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
-    NSLog(@"%@", htmlBody);
+    self.trelloToken = [htmlBody substringWithRange:NSMakeRange(131, 66)];
 }
 
 - (void)didReceiveMemoryWarning

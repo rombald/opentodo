@@ -10,5 +10,9 @@
 
 @interface OpenTodoTrelloAuthViewController : UIViewController <UIWebViewDelegate>
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UILabel *spinnerBackground;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
+@property NSString *trelloToken;
 
 @end
