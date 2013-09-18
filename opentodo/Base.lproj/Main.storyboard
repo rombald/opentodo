@@ -260,11 +260,31 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="spinner" destination="NfV-g3-bh9" id="ybs-rf-eDW"/>
                         <outlet property="spinnerBackground" destination="izW-7g-Sh8" id="7yX-8C-rzi"/>
                         <outlet property="webView" destination="uNB-Z1-uQF" id="pvc-sT-zoc"/>
+                        <segue destination="KOe-g1-vJO" kind="push" identifier="selectTrelloPrefs" id="hUr-OX-Nf2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Obh-kN-Vs5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1378" y="827"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="dpC-zc-3yc">
+            <objects>
+                <viewController id="KOe-g1-vJO" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="36m-LV-dre"/>
+                        <viewControllerLayoutGuide type="bottom" id="bb7-Dk-Z3X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="h1Q-iD-QSr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bx7-ZY-7i1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VJU-zE-GOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1824" y="827"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8cY-i2-jaR">
