@@ -17,7 +17,7 @@
 @synthesize jsonTrelloData;
 @synthesize trelloToken;
 @synthesize trelloAppKey;
-@synthesize todos;
+@synthesize boards;
 
 @synthesize boardTableView;
 
@@ -35,7 +35,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.todos = [NSJSONSerialization JSONObjectWithData:self.jsonTrelloData options:NSJSONReadingMutableLeaves error:nil];
+    self.boards = [NSJSONSerialization JSONObjectWithData:self.jsonTrelloData options:NSJSONReadingMutableLeaves error:nil];
     self.boardTableView.delegate = self;
 }
 
@@ -52,7 +52,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.todos.count;
+    return self.boards.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,10 +60,10 @@
     static NSString *CellIdentifier = @"boardCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
    
-    NSMutableArray *todo = [self.todos objectAtIndex:indexPath.row];
+    NSMutableArray *board = [self.boards objectAtIndex:indexPath.row];
     
     UILabel *boardName = (UILabel *)[cell viewWithTag:10];
-    boardName.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
+    boardName.text = [NSString stringWithFormat:@"%@", [board valueForKey:@"name"]];
     
     return cell;
 }
@@ -73,7 +73,7 @@
     if ([[segue identifier] isEqualToString:@"selectRow"]) {
         OpenTodoTrelloRowSelectionViewController *destViewController = segue.destinationViewController;
 
-        NSMutableArray *selectedBoard = [self.todos objectAtIndex:[[self.boardTableView indexPathForSelectedRow] row]];
+        NSMutableArray *selectedBoard = [self.boards objectAtIndex:[[self.boardTableView indexPathForSelectedRow] row]];
         
         destViewController.trelloAppKey = self.trelloAppKey;
         destViewController.trelloToken = self.trelloToken;

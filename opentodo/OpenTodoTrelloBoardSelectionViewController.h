@@ -12,7 +12,7 @@
 @property NSData *jsonTrelloData;
 @property NSString *trelloToken;
 @property NSString *trelloAppKey;
-@property NSMutableArray *todos;
+@property NSMutableArray *boards;
 
 @property (weak, nonatomic) IBOutlet UITableView *boardTableView;
 
