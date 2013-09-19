@@ -7,6 +7,7 @@
 //
 
 #import "OpenTodoTrelloAuthViewController.h"
+#import "OpenTodoTrelloBoardSelectionViewController.h"
 
 @interface OpenTodoTrelloAuthViewController ()
 
@@ -18,6 +19,8 @@
 @synthesize spinner;
 
 @synthesize trelloToken;
+@synthesize trelloAppKey;
+@synthesize jsonTrelloData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +37,10 @@
 
     webView.delegate = self;
     
-    NSURL *url = [NSURL URLWithString:@"https://trello.com/1/authorize?key=9305fdfeca9d8484d1674a628e368137&expiration=never&name=OpenTodo&response_type=token&scope=read,write"];
+    self.trelloAppKey = @"9305fdfeca9d8484d1674a628e368137";
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://trello.com/1/authorize?key=%@&expiration=never&name=OpenTodo&response_type=token&scope=read,write", self.trelloAppKey]];
+
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
 
@@ -55,8 +61,7 @@
     NSString *htmlBody = [web_view stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
     self.trelloToken = [[htmlBody substringWithRange:NSMakeRange(133, 65)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    NSString *appKey = @"9305fdfeca9d8484d1674a628e368137";
-    NSString *trelloTest = [NSString stringWithFormat:@"https://trello.com/1/members/my/boards?key=%@&token=%@", appKey, self.trelloToken];
+    NSString *trelloTest = [NSString stringWithFormat:@"https://trello.com/1/members/my/boards?key=%@&token=%@", self.trelloAppKey, self.trelloToken];
     
     NSURL *trelloTestUrl = [NSURL URLWithString:trelloTest];
     NSURLRequest *request = [NSURLRequest requestWithURL:trelloTestUrl];
@@ -68,11 +73,20 @@
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 
     if (!error) {
+        self.jsonTrelloData = responseData;
         [self performSegueWithIdentifier:@"selectTrelloPrefs" sender:self];
     } else {
         NSLog(@"Error: %@", error);
         NSLog(@"Response from server = %@", responseString);
     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    OpenTodoTrelloBoardSelectionViewController *boardSelection = segue.destinationViewController;
+    boardSelection.trelloAppKey = self.trelloAppKey;
+    boardSelection.trelloToken = self.trelloToken;
+    boardSelection.jsonTrelloData = self.jsonTrelloData;
 }
 
 - (void)didReceiveMemoryWarning

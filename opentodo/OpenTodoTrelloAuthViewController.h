@@ -14,5 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @property NSString *trelloToken;
+@property NSString *trelloAppKey;
+@property NSData *jsonTrelloData;
 
 @end
