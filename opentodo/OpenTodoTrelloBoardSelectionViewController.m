@@ -70,25 +70,6 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    /*
-    OpenToDoDetailViewController *destViewController = segue.destinationViewController;
-    
-    if ([[segue identifier] isEqualToString:@"UpdateToDo"] && !self.iCloudStorage) {
-        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-        destViewController.todo = selectedToDo;
-    } else if ([[segue identifier] isEqualToString:@"UpdateToDo"] && self.iCloudStorage) {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
-                                                          message:@"It's not possible to edit an iCloud Todo!"
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-        [message show];
-    }
-    
-    destViewController.localStorage = self.localStorage;
-    destViewController.iCloudStorage = self.iCloudStorage;
-    */
-    
     if ([[segue identifier] isEqualToString:@"selectRow"]) {
         OpenTodoTrelloRowSelectionViewController *destViewController = segue.destinationViewController;
 
