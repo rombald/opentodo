@@ -7,6 +7,7 @@
 //
 
 #import "OpenTodoTrelloRowSelectionViewController.h"
+#import "OpenTodoViewController.h"
 
 @interface OpenTodoTrelloRowSelectionViewController ()
 
@@ -76,6 +77,14 @@
     rowName.text = [NSString stringWithFormat:@"%@", [trelloRow valueForKey:@"name"]];
     
     return cell;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{ 
+    if ([[segue identifier] isEqualToString:@"SelectStorageTrello"]) {
+        OpenTodoViewController *opentodoview = segue.destinationViewController;
+        opentodoview.trelloStorage = YES;
+    }
 }
 
 @end

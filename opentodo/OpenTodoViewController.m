@@ -17,6 +17,7 @@
 @implementation OpenTodoViewController
 @synthesize localStorage;
 @synthesize iCloudStorage;
+@synthesize trelloStorage;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
