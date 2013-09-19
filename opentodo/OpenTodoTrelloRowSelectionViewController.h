@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OpenTodoTrelloRowSelectionViewController : UIViewController
+@interface OpenTodoTrelloRowSelectionViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property NSString *trelloToken;
 @property NSString *trelloAppKey;
 @property NSMutableArray *selectedBoard;
+@property NSMutableArray *trelloRows;
+
+@property (weak, nonatomic) IBOutlet UITableView *rowTableView;
 
 @end
