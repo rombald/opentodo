@@ -13,6 +13,9 @@
 @end
 
 @implementation OpenTodoTrelloRowSelectionViewController
+@synthesize trelloToken;
+@synthesize trelloAppKey;
+@synthesize selectedBoard;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +30,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    NSLog(@"Token: %@ | AppKey: %@ | selectedBoard: %@", self.trelloToken, self.trelloAppKey, [self.selectedBoard valueForKey:@"name"]);
 }
 
 - (void)didReceiveMemoryWarning

@@ -7,6 +7,7 @@
 //
 
 #import "OpenTodoTrelloBoardSelectionViewController.h"
+#import "OpenTodoTrelloRowSelectionViewController.h"
 
 @interface OpenTodoTrelloBoardSelectionViewController ()
 
@@ -17,6 +18,8 @@
 @synthesize trelloToken;
 @synthesize trelloAppKey;
 @synthesize todos;
+
+@synthesize boardTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +36,7 @@
 	// Do any additional setup after loading the view.
     
     self.todos = [NSJSONSerialization JSONObjectWithData:self.jsonTrelloData options:NSJSONReadingMutableLeaves error:nil];
+    self.boardTableView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,6 +66,38 @@
     boardName.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
     
     return cell;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    /*
+    OpenToDoDetailViewController *destViewController = segue.destinationViewController;
+    
+    if ([[segue identifier] isEqualToString:@"UpdateToDo"] && !self.iCloudStorage) {
+        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+        destViewController.todo = selectedToDo;
+    } else if ([[segue identifier] isEqualToString:@"UpdateToDo"] && self.iCloudStorage) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                          message:@"It's not possible to edit an iCloud Todo!"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+    }
+    
+    destViewController.localStorage = self.localStorage;
+    destViewController.iCloudStorage = self.iCloudStorage;
+    */
+    
+    if ([[segue identifier] isEqualToString:@"selectRow"]) {
+        OpenTodoTrelloRowSelectionViewController *destViewController = segue.destinationViewController;
+
+        NSMutableArray *selectedBoard = [self.todos objectAtIndex:[[self.boardTableView indexPathForSelectedRow] row]];
+        
+        destViewController.trelloAppKey = self.trelloAppKey;
+        destViewController.trelloToken = self.trelloToken;
+        destViewController.selectedBoard = selectedBoard;
+    }
 }
 
 @end

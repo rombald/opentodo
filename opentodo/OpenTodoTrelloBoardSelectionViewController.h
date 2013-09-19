@@ -14,4 +14,6 @@
 @property NSString *trelloAppKey;
 @property NSMutableArray *todos;
 
+@property (weak, nonatomic) IBOutlet UITableView *boardTableView;
+
 @end
