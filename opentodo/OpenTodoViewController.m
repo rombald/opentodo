@@ -19,10 +19,10 @@
 @synthesize iCloudStorage;
 @synthesize trelloStorage;
 
-@synthesize trelloBoard;
 @synthesize trelloList;
 @synthesize trelloAppKey;
 @synthesize trelloToken;
+@synthesize trelloCards;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -127,8 +127,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return self.todos.count;
+    if (!self.trelloStorage) {
+        return self.todos.count;
+    } else {
+        return self.trelloCards.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,6 +155,21 @@
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
         label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+    } else if (self.trelloStorage) {
+        NSMutableArray *todo = [self.trelloCards objectAtIndex:indexPath.row];
+        
+        UILabel *title = (UILabel *)[cell viewWithTag:1];
+        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
+        
+        NSMutableArray *trelloLabels = [todo valueForKey:@"labels"];
+        
+        UILabel *label = (UILabel *)[cell viewWithTag:2];
+
+        if (trelloLabels.count < 1) {
+            label.text = @"";
+        } else {
+            label.text = [NSString stringWithFormat:@"%@", [trelloLabels.firstObject valueForKey:@"name"]];
+        }
     }
     
     return cell;
@@ -207,7 +225,19 @@
     } else if (self.trelloStorage) {
         self.navigationItem.title = @"Trello Storage";
         
-        NSLog(@"Token: %@ | AppKey: %@ | Board: %@ | List: %@", self.trelloToken, self.trelloAppKey, self.trelloBoard, self.trelloList);
+        NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
+        NSURLResponse *response;
+        NSError *error;
+        
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        if (!error) {
+            self.trelloCards = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
+        } else {
+            NSLog(@"%@", error);
+        }
     }
 }
 

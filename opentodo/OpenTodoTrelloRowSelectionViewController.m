@@ -89,7 +89,6 @@
         opentodoview.trelloStorage = YES;
         opentodoview.trelloToken = self.trelloToken;
         opentodoview.trelloAppKey = self.trelloAppKey;
-        opentodoview.trelloBoard = self.selectedBoard;
         opentodoview.trelloList = selectedList;
     }
 }
