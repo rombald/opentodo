@@ -19,6 +19,11 @@
 @synthesize iCloudStorage;
 @synthesize trelloStorage;
 
+@synthesize trelloBoard;
+@synthesize trelloList;
+@synthesize trelloAppKey;
+@synthesize trelloToken;
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
@@ -199,6 +204,10 @@
                                                    object:nil];
 
         self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        self.navigationItem.title = @"Trello Storage";
+        
+        NSLog(@"Token: %@ | AppKey: %@ | Board: %@ | List: %@", self.trelloToken, self.trelloAppKey, self.trelloBoard, self.trelloList);
     }
 }
 

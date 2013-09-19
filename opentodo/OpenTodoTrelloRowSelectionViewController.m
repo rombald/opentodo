@@ -83,7 +83,14 @@
 { 
     if ([[segue identifier] isEqualToString:@"SelectStorageTrello"]) {
         OpenTodoViewController *opentodoview = segue.destinationViewController;
+        
+        NSMutableArray *selectedList = [self.trelloRows objectAtIndex:[[self.rowTableView indexPathForSelectedRow] row]];
+        
         opentodoview.trelloStorage = YES;
+        opentodoview.trelloToken = self.trelloToken;
+        opentodoview.trelloAppKey = self.trelloAppKey;
+        opentodoview.trelloBoard = self.selectedBoard;
+        opentodoview.trelloList = selectedList;
     }
 }
 
