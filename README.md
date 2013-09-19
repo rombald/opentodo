@@ -12,7 +12,7 @@ The goal is, that everybody can add additional storages (e.g. Evernote) for the 
  
 ## Installation
 
-You need Xcode 5 (Developer Preview).
+You need Xcode 5.
 
 Just clone this repo and open the `opentodo.xcodeproj` with Xcode.
 
