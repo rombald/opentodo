@@ -33,7 +33,6 @@
 	// Do any additional setup after loading the view.
     
     self.todos = [NSJSONSerialization JSONObjectWithData:self.jsonTrelloData options:NSJSONReadingMutableLeaves error:nil];
-    NSLog(@"%@", self.todos);
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,9 +53,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"boardCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
    
+    NSMutableArray *todo = [self.todos objectAtIndex:indexPath.row];
+    
+    UILabel *boardName = (UILabel *)[cell viewWithTag:10];
+    boardName.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
+    
     return cell;
 }
 
