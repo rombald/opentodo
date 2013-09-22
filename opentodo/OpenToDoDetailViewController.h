@@ -20,6 +20,7 @@
 - (IBAction)save:(id)sender;
 
 @property (strong) NSManagedObject *todo;
+@property NSMutableArray *trelloCard;
 
 @property BOOL localStorage;
 @property BOOL iCloudStorage;

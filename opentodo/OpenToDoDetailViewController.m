@@ -14,6 +14,7 @@
 
 @implementation OpenToDoDetailViewController
 @synthesize todo;
+@synthesize trelloCard;
 
 @synthesize localStorage;
 @synthesize iCloudStorage;

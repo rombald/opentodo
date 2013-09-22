@@ -35,9 +35,12 @@
                                                     cancelButtonTitle:@"OK"
                                                     otherButtonTitles:nil];
             [message show];
-        } else {
+        } else if (self.localStorage) {
             NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
             destViewController.todo = selectedToDo;
+        } else if (self.trelloStorage) {
+            NSMutableArray *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+            destViewController.trelloCard = selectedToDo;
         }
     }
     
