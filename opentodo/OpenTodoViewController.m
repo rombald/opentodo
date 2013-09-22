@@ -27,16 +27,18 @@
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
-    if ([[segue identifier] isEqualToString:@"UpdateToDo"] && !self.iCloudStorage) {
-        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-        destViewController.todo = selectedToDo;
-    } else if ([[segue identifier] isEqualToString:@"UpdateToDo"] && self.iCloudStorage) {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
-                                                          message:@"It's not possible to edit an iCloud Todo!"
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-        [message show];
+    if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
+        if (self.iCloudStorage) {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                              message:@"It's not possible to edit an iCloud Todo!"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            [message show];
+        } else {
+            NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+            destViewController.todo = selectedToDo;
+        }
     }
     
     destViewController.localStorage = self.localStorage;
