@@ -24,5 +24,6 @@
 
 @property BOOL localStorage;
 @property BOOL iCloudStorage;
+@property BOOL trelloStorage;
 
 @end

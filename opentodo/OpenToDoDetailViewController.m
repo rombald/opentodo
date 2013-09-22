@@ -18,6 +18,7 @@
 
 @synthesize localStorage;
 @synthesize iCloudStorage;
+@synthesize trelloStorage;
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -47,6 +48,22 @@
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
         [self.labelTextField setText:[self.todo valueForKey:@"label"]];
         [self.dueTime setDate:[self.todo valueForKey:@"due_time"]];
+    } else if (self.trelloCard) {
+        [self.titleTextField setText:[self.trelloCard valueForKey:@"name"]];
+        [self.descriptionTextView setText:[self.trelloCard valueForKey:@"desc"]];
+        
+        NSArray *labelArray = [self.trelloCard valueForKey:@"labels"];
+        if (labelArray.count > 0) {
+            [self.labelTextField setText:[NSString stringWithFormat:@"%@", [labelArray.firstObject valueForKey:@"name"]]];
+        }
+
+        if ([self.trelloCard valueForKey:@"due"] != (id)[NSNull null]) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.000Z'"];
+            NSDate *dueTime = [dateFormatter dateFromString:[self.trelloCard valueForKey:@"due"]];
+
+            [self.dueTime setDate:dueTime];
+        }
     }
     
     NSString *prefix = @"Saving to ";
@@ -54,6 +71,8 @@
         [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
     } else if (self.iCloudStorage) {
         [self.storageWarning setText:[prefix stringByAppendingString:@"iCloud Storage"]];
+    } else if (self.trelloStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"Trello Storage"]];
     }
 }
 

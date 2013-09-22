@@ -46,6 +46,7 @@
     
     destViewController.localStorage = self.localStorage;
     destViewController.iCloudStorage = self.iCloudStorage;
+    destViewController.trelloStorage = self.trelloStorage;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,7 +226,7 @@
     } else if (self.trelloStorage) {
         self.navigationItem.title = @"Trello Storage";
         
-        NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+        NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
 
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
         NSURLResponse *response;
