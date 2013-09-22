@@ -22,7 +22,6 @@
 @synthesize trelloList;
 @synthesize trelloAppKey;
 @synthesize trelloToken;
-@synthesize trelloCards;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -127,11 +126,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (!self.trelloStorage) {
-        return self.todos.count;
-    } else {
-        return self.trelloCards.count;
-    }
+    return self.todos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -156,7 +151,7 @@
         UILabel *label = (UILabel *)[cell viewWithTag:2];
         label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
     } else if (self.trelloStorage) {
-        NSMutableArray *todo = [self.trelloCards objectAtIndex:indexPath.row];
+        NSMutableArray *todo = [self.todos objectAtIndex:indexPath.row];
         
         UILabel *title = (UILabel *)[cell viewWithTag:1];
         title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
@@ -234,7 +229,7 @@
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         if (!error) {
-            self.trelloCards = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
+            self.todos = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
         } else {
             NSLog(@"%@", error);
         }
