@@ -14,9 +14,15 @@
 
 @implementation OpenToDoDetailViewController
 @synthesize todo;
+@synthesize trelloCard;
 
 @synthesize localStorage;
 @synthesize iCloudStorage;
+@synthesize trelloStorage;
+
+@synthesize trelloAppKey;
+@synthesize trelloToken;
+@synthesize trelloList;
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -46,6 +52,22 @@
         [self.descriptionTextView setText:[self.todo valueForKey:@"desc"]];
         [self.labelTextField setText:[self.todo valueForKey:@"label"]];
         [self.dueTime setDate:[self.todo valueForKey:@"due_time"]];
+    } else if (self.trelloCard) {
+        [self.titleTextField setText:[self.trelloCard valueForKey:@"name"]];
+        [self.descriptionTextView setText:[self.trelloCard valueForKey:@"desc"]];
+        
+        NSArray *labelArray = [self.trelloCard valueForKey:@"labels"];
+        if (labelArray.count > 0) {
+            [self.labelTextField setText:[NSString stringWithFormat:@"%@", [labelArray.firstObject valueForKey:@"name"]]];
+        }
+
+        if ([self.trelloCard valueForKey:@"due"] != (id)[NSNull null]) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.000Z'"];
+            NSDate *dueTime = [dateFormatter dateFromString:[self.trelloCard valueForKey:@"due"]];
+
+            [self.dueTime setDate:dueTime];
+        }
     }
     
     NSString *prefix = @"Saving to ";
@@ -53,6 +75,8 @@
         [self.storageWarning setText:[prefix stringByAppendingString:@"Local Storage"]];
     } else if (self.iCloudStorage) {
         [self.storageWarning setText:[prefix stringByAppendingString:@"iCloud Storage"]];
+    } else if (self.trelloStorage) {
+        [self.storageWarning setText:[prefix stringByAppendingString:@"Trello Storage"]];
     }
 }
 
@@ -108,6 +132,37 @@
                                                       encoding:NSUTF8StringEncoding];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"New ToDo" object:self userInfo:[NSDictionary dictionaryWithObject:jsonNewTodo forKey:@"ToDo"]];
+    } else if (self.trelloStorage) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.000Z'"];
+        NSString *stringDueTime = [dateFormatter stringFromDate:self.dueTime.date];
+        
+        NSString *saveTrelloCardUrl;
+        NSMutableURLRequest *request;
+
+        if (self.trelloCard) {
+            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/%@?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@", [self.trelloCard valueForKey:@"id"], self.trelloAppKey, self.trelloToken, [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], stringDueTime];
+            
+            request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saveTrelloCardUrl]];
+            [request setHTTPMethod:@"PUT"];
+        } else {
+            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@&idList=%@", self.trelloAppKey, self.trelloToken, [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], stringDueTime, [self.trelloList valueForKey:@"id"]];
+            
+            request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saveTrelloCardUrl]];
+            [request setHTTPMethod:@"POST"];
+        }
+        
+        NSURLResponse *response;
+        NSError *error;
+        
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        if (!error) {
+            NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, saveTrelloCardUrl);
+        } else {
+            NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, saveTrelloCardUrl);
+        }
     }
     
     [self.descriptionTextView resignFirstResponder];

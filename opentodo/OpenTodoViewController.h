@@ -11,6 +11,11 @@
 @interface OpenTodoViewController : UITableViewController
 @property BOOL localStorage;
 @property BOOL iCloudStorage;
+@property BOOL trelloStorage;
+
+@property NSMutableArray *trelloList;
+@property NSString *trelloAppKey;
+@property NSString *trelloToken;
 
 @property (strong, nonatomic) NSMutableArray *iCloudToDos;
 
