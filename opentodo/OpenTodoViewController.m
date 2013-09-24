@@ -63,10 +63,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.localStorage) {
-        NSManagedObjectContext *context = [self managedObjectContext];
-        
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (self.localStorage) {
+            NSManagedObjectContext *context = [self managedObjectContext];
+            
             // Delete object from database
             [context deleteObject:[self.todos objectAtIndex:indexPath.row]];
             
@@ -79,13 +79,32 @@
             // Remove device from table view
             [self.todos removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
-    } else if (self.iCloudStorage) {
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
+        } else if (self.iCloudStorage) {
             [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey:@"ICLOUD_TODOS"];
             self.todos = self.iCloudToDos;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        } else if (self.trelloStorage) {
+            NSMutableArray *toDeleteToDo = [self.todos objectAtIndex:indexPath.row];
+            NSString *deleteTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/%@?key=%@&token=%@", [toDeleteToDo valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:deleteTrelloCardUrl]];
+            [request setHTTPMethod:@"DELETE"];
+            NSURLResponse *response;
+            NSError *error;
+            
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+            
+            if (!error) {
+                NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, deleteTrelloCardUrl);
+                
+                [self fetchTrelloToDos];
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, deleteTrelloCardUrl);
+            }
         }
+
     }
 }
 
