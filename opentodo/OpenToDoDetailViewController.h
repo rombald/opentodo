@@ -26,4 +26,8 @@
 @property BOOL iCloudStorage;
 @property BOOL trelloStorage;
 
+@property NSString *trelloAppKey;
+@property NSString *trelloToken;
+@property NSMutableArray *trelloList;
+
 @end

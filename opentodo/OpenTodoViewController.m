@@ -27,6 +27,12 @@
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
+    if (self.trelloStorage) {
+        destViewController.trelloAppKey = self.trelloAppKey;
+        destViewController.trelloToken = self.trelloToken;
+        destViewController.trelloList = self.trelloList;
+    }
+    
     if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
         if (self.iCloudStorage) {
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
