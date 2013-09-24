@@ -125,6 +125,9 @@
                                                      name:@"New ToDo"
                                                    object:nil];
         self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        [self fetchTrelloToDos];
+        [self.tableView reloadData];
     }
 
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
@@ -232,19 +235,24 @@
     } else if (self.trelloStorage) {
         self.navigationItem.title = @"Trello Storage";
         
-        NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+        [self fetchTrelloToDos];
+    }
+}
 
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
-        NSURLResponse *response;
-        NSError *error;
-        
-        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        if (!error) {
-            self.todos = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
-        } else {
-            NSLog(@"%@", error);
-        }
+- (void)fetchTrelloToDos
+{
+    NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
+    NSURLResponse *response;
+    NSError *error;
+    
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+
+    if (!error) {
+        self.todos = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
+    } else {
+        NSLog(@"%@", error);
     }
 }
 
