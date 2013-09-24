@@ -17,25 +17,42 @@
 @implementation OpenTodoViewController
 @synthesize localStorage;
 @synthesize iCloudStorage;
+@synthesize trelloStorage;
+
+@synthesize trelloList;
+@synthesize trelloAppKey;
+@synthesize trelloToken;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
 
-    if ([[segue identifier] isEqualToString:@"UpdateToDo"] && !self.iCloudStorage) {
-        NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-        destViewController.todo = selectedToDo;
-    } else if ([[segue identifier] isEqualToString:@"UpdateToDo"] && self.iCloudStorage) {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
-                                                          message:@"It's not possible to edit an iCloud Todo!"
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-        [message show];
+    if (self.trelloStorage) {
+        destViewController.trelloAppKey = self.trelloAppKey;
+        destViewController.trelloToken = self.trelloToken;
+        destViewController.trelloList = self.trelloList;
+    }
+    
+    if ([[segue identifier] isEqualToString:@"UpdateToDo"]) {
+        if (self.iCloudStorage) {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                              message:@"It's not possible to edit an iCloud Todo!"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            [message show];
+        } else if (self.localStorage) {
+            NSManagedObject *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+            destViewController.todo = selectedToDo;
+        } else if (self.trelloStorage) {
+            NSMutableArray *selectedToDo = [self.todos objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+            destViewController.trelloCard = selectedToDo;
+        }
     }
     
     destViewController.localStorage = self.localStorage;
     destViewController.iCloudStorage = self.iCloudStorage;
+    destViewController.trelloStorage = self.trelloStorage;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -46,10 +63,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.localStorage) {
-        NSManagedObjectContext *context = [self managedObjectContext];
-        
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (self.localStorage) {
+            NSManagedObjectContext *context = [self managedObjectContext];
+            
             // Delete object from database
             [context deleteObject:[self.todos objectAtIndex:indexPath.row]];
             
@@ -62,13 +79,32 @@
             // Remove device from table view
             [self.todos removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
-    } else if (self.iCloudStorage) {
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
+        } else if (self.iCloudStorage) {
             [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey:@"ICLOUD_TODOS"];
             self.todos = self.iCloudToDos;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        } else if (self.trelloStorage) {
+            NSMutableArray *toDeleteToDo = [self.todos objectAtIndex:indexPath.row];
+            NSString *deleteTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/%@?key=%@&token=%@", [toDeleteToDo valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:deleteTrelloCardUrl]];
+            [request setHTTPMethod:@"DELETE"];
+            NSURLResponse *response;
+            NSError *error;
+            
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+            
+            if (!error) {
+                NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, deleteTrelloCardUrl);
+                
+                [self fetchTrelloToDos];
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, deleteTrelloCardUrl);
+            }
         }
+
     }
 }
 
@@ -108,6 +144,9 @@
                                                      name:@"New ToDo"
                                                    object:nil];
         self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        [self fetchTrelloToDos];
+        [self.tableView reloadData];
     }
 
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
@@ -121,7 +160,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return self.todos.count;
 }
 
@@ -146,6 +184,21 @@
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
         label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+    } else if (self.trelloStorage) {
+        NSMutableArray *todo = [self.todos objectAtIndex:indexPath.row];
+        
+        UILabel *title = (UILabel *)[cell viewWithTag:1];
+        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
+        
+        NSMutableArray *trelloLabels = [todo valueForKey:@"labels"];
+        
+        UILabel *label = (UILabel *)[cell viewWithTag:2];
+
+        if (trelloLabels.count < 1) {
+            label.text = @"";
+        } else {
+            label.text = [NSString stringWithFormat:@"%@", [trelloLabels.firstObject valueForKey:@"name"]];
+        }
     }
     
     return cell;
@@ -198,6 +251,27 @@
                                                    object:nil];
 
         self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        self.navigationItem.title = @"Trello Storage";
+        
+        [self fetchTrelloToDos];
+    }
+}
+
+- (void)fetchTrelloToDos
+{
+    NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
+    NSURLResponse *response;
+    NSError *error;
+    
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+
+    if (!error) {
+        self.todos = [[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil] valueForKey:@"cards"];
+    } else {
+        NSLog(@"%@", error);
     }
 }
 
