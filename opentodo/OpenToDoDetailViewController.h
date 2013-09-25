@@ -28,6 +28,6 @@
 
 @property NSString *trelloAppKey;
 @property NSString *trelloToken;
-@property NSMutableArray *trelloList;
+@property NSArray *trelloList;
 
 @end

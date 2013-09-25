@@ -74,7 +74,7 @@
     
     NSMutableArray *trelloRow = [self.trelloRows objectAtIndex:indexPath.row];
     UILabel *rowName = (UILabel *)[cell viewWithTag:101];
-    rowName.text = [NSString stringWithFormat:@"%@", [trelloRow valueForKey:@"name"]];
+    rowName.text = [trelloRow valueForKey:@"name"];
     
     return cell;
 }
@@ -84,7 +84,7 @@
     if ([[segue identifier] isEqualToString:@"SelectStorageTrello"]) {
         OpenTodoViewController *opentodoview = segue.destinationViewController;
         
-        NSMutableArray *selectedList = [self.trelloRows objectAtIndex:[[self.rowTableView indexPathForSelectedRow] row]];
+        NSArray *selectedList = [self.trelloRows objectAtIndex:[[self.rowTableView indexPathForSelectedRow] row]];
         
         opentodoview.trelloStorage = YES;
         opentodoview.trelloToken = self.trelloToken;

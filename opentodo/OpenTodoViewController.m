@@ -23,6 +23,79 @@
 @synthesize trelloAppKey;
 @synthesize trelloToken;
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
+    
+    if (self.localStorage) {
+        self.navigationItem.title = @"Local Storage";
+    } else if (self.iCloudStorage) {
+        self.navigationItem.title = @"iCloud Storage";
+        
+        //  Observer to catch changes from iCloud
+        NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(storeDidChange:)
+                                                     name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+                                                   object:store];
+        
+        [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+        
+        // Observer to catch the local changes
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didAddNewToDo:)
+                                                     name:@"New ToDo"
+                                                   object:nil];
+        
+        self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        self.navigationItem.title = @"Trello Storage";
+        
+        [self fetchTrelloToDos];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.localStorage) {
+        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ToDo"];
+        self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+        
+        [self.tableView reloadData];
+    } else if (self.iCloudStorage) {
+        //  Observer to catch changes from iCloud
+        NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(storeDidChange:)
+                                                     name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+                                                   object:store];
+        
+        [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+        
+        // Observer to catch the local changes
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didAddNewToDo:)
+                                                     name:@"New ToDo"
+                                                   object:nil];
+        self.todos = self.iCloudToDos;
+    } else if (self.trelloStorage) {
+        [self fetchTrelloToDos];
+        [self.tableView reloadData];
+    }
+    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     OpenToDoDetailViewController *destViewController = segue.destinationViewController;
@@ -118,40 +191,6 @@
     return context;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    if (self.localStorage) {
-        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ToDo"];
-        self.todos = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-        
-        [self.tableView reloadData];
-    } else if (self.iCloudStorage) {
-        //  Observer to catch changes from iCloud
-        NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(storeDidChange:)
-                                                     name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
-                                                   object:store];
-        
-        [[NSUbiquitousKeyValueStore defaultStore] synchronize];
-        
-        // Observer to catch the local changes
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didAddNewToDo:)
-                                                     name:@"New ToDo"
-                                                   object:nil];
-        self.todos = self.iCloudToDos;
-    } else if (self.trelloStorage) {
-        [self fetchTrelloToDos];
-        [self.tableView reloadData];
-    }
-
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -172,32 +211,30 @@
         NSManagedObject *todo = [self.todos objectAtIndex:indexPath.row];
 
         UILabel *title = (UILabel *)[cell viewWithTag:1];
-        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]];
+        title.text = [todo valueForKey:@"title"];
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
-        label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+        label.text = [todo valueForKey:@"label"];
     } else if (self.iCloudStorage) {
-        NSMutableArray *todo = [self.todos valueForKey:@"ToDo"];
+        NSArray *todo = [self.todos valueForKey:@"ToDo"];
 
         UILabel *title = (UILabel *)[cell viewWithTag:1];
-        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"title"]];
+        title.text = [todo valueForKey:@"title"];
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
-        label.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"label"]];
+        label.text = [todo valueForKey:@"label"];
     } else if (self.trelloStorage) {
-        NSMutableArray *todo = [self.todos objectAtIndex:indexPath.row];
+        NSArray *todo = [self.todos objectAtIndex:indexPath.row];
         
         UILabel *title = (UILabel *)[cell viewWithTag:1];
-        title.text = [NSString stringWithFormat:@"%@", [todo valueForKey:@"name"]];
+        title.text = [todo valueForKey:@"name"];
         
-        NSMutableArray *trelloLabels = [todo valueForKey:@"labels"];
+        NSArray *trelloLabels = [todo valueForKey:@"labels"];
         
         UILabel *label = (UILabel *)[cell viewWithTag:2];
 
-        if (trelloLabels.count < 1) {
-            label.text = @"";
-        } else {
-            label.text = [NSString stringWithFormat:@"%@", [trelloLabels.firstObject valueForKey:@"name"]];
+        if (trelloLabels.count > 1) {
+            label.text = [trelloLabels.firstObject valueForKey:@"name"];
         }
     }
     
@@ -206,10 +243,6 @@
 
 - (NSArray *)iCloudToDos
 {
-    if (_iCloudToDos) {
-        //return _iCloudToDos;
-    }
-
     _iCloudToDos = [[[NSUbiquitousKeyValueStore defaultStore] arrayForKey:@"ICLOUD_TODOS"] mutableCopy];
     if (_iCloudToDos) {
         NSString* todoString = _iCloudToDos.firstObject;
@@ -224,48 +257,18 @@
     return _iCloudToDos;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    if (self.localStorage) {
-        self.navigationItem.title = @"Local Storage";
-    } else if (self.iCloudStorage) {
-        self.navigationItem.title = @"iCloud Storage";
-        //self.navigationItem.leftBarButtonItem = self.editButtonItem;
-        
-        //  Observer to catch changes from iCloud
-        NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(storeDidChange:)
-                                                     name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
-                                                   object:store];
-        
-        [[NSUbiquitousKeyValueStore defaultStore] synchronize];
-        
-        // Observer to catch the local changes
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didAddNewToDo:)
-                                                     name:@"New ToDo"
-                                                   object:nil];
-
-        self.todos = self.iCloudToDos;
-    } else if (self.trelloStorage) {
-        self.navigationItem.title = @"Trello Storage";
-        
-        [self fetchTrelloToDos];
-    }
-}
 
 - (void)fetchTrelloToDos
 {
-    NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due", [self.trelloList valueForKey:@"id"], self.trelloAppKey, self.trelloToken];
+    NSString *trelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/lists/%@?key=%@&token=%@&cards=all&card_fields=name,labels,desc,due",
+                               [self.trelloList valueForKey:@"id"],
+                               self.trelloAppKey,
+                               self.trelloToken];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:trelloCardUrl]];
     NSURLResponse *response;
     NSError *error;
-    
+
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 
     if (!error) {
@@ -273,12 +276,6 @@
     } else {
         NSLog(@"%@", error);
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Observer New ToDo
