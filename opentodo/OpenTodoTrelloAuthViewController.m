@@ -68,7 +68,7 @@
     
     NSURLResponse *response;
     NSError *error;
-    //send it synchronous
+
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 

@@ -11,7 +11,7 @@
 @interface OpenTodoTrelloRowSelectionViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property NSString *trelloToken;
 @property NSString *trelloAppKey;
-@property NSMutableArray *selectedBoard;
+@property NSArray *selectedBoard;
 @property NSMutableArray *trelloRows;
 
 @property (weak, nonatomic) IBOutlet UITableView *rowTableView;

@@ -63,7 +63,7 @@
     NSMutableArray *board = [self.boards objectAtIndex:indexPath.row];
     
     UILabel *boardName = (UILabel *)[cell viewWithTag:10];
-    boardName.text = [NSString stringWithFormat:@"%@", [board valueForKey:@"name"]];
+    boardName.text = [board valueForKey:@"name"];
     
     return cell;
 }
@@ -73,7 +73,7 @@
     if ([[segue identifier] isEqualToString:@"selectRow"]) {
         OpenTodoTrelloRowSelectionViewController *destViewController = segue.destinationViewController;
 
-        NSMutableArray *selectedBoard = [self.boards objectAtIndex:[[self.boardTableView indexPathForSelectedRow] row]];
+        NSArray *selectedBoard = [self.boards objectAtIndex:[[self.boardTableView indexPathForSelectedRow] row]];
         
         destViewController.trelloAppKey = self.trelloAppKey;
         destViewController.trelloToken = self.trelloToken;
