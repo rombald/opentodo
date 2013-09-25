@@ -58,7 +58,7 @@
         
         NSArray *labelArray = [self.trelloCard valueForKey:@"labels"];
         if (labelArray.count > 0) {
-            [self.labelTextField setText:[NSString stringWithFormat:@"%@", [labelArray.firstObject valueForKey:@"name"]]];
+            [self.labelTextField setText:[labelArray.firstObject valueForKey:@"name"]];
         }
 
         if ([self.trelloCard valueForKey:@"due"] != (id)[NSNull null]) {
@@ -141,22 +141,36 @@
         NSMutableURLRequest *request;
 
         if (self.trelloCard) {
-            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/%@?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@", [self.trelloCard valueForKey:@"id"], self.trelloAppKey, self.trelloToken, [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], stringDueTime];
-            
+            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/%@?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@",
+                                 [self.trelloCard valueForKey:@"id"],
+                                 self.trelloAppKey,
+                                 self.trelloToken,
+                                 [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 stringDueTime];
+
             request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saveTrelloCardUrl]];
             [request setHTTPMethod:@"PUT"];
         } else {
-            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@&idList=%@", self.trelloAppKey, self.trelloToken, [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"], stringDueTime, [self.trelloList valueForKey:@"id"]];
-            
+            saveTrelloCardUrl = [NSString stringWithFormat:@"https://trello.com/1/cards/?key=%@&token=%@&name=%@&desc=%@&labels=%@&due=%@&idList=%@",
+                                 self.trelloAppKey,
+                                 self.trelloToken,
+                                 [self.titleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 [self.descriptionTextView.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 [self.labelTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"+"],
+                                 stringDueTime,
+                                 [self.trelloList valueForKey:@"id"]];
+
             request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saveTrelloCardUrl]];
             [request setHTTPMethod:@"POST"];
         }
         
         NSURLResponse *response;
         NSError *error;
-        
+
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
+
         NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
         if (!error) {
             NSLog(@"Error: %@ | response: %@ | URL: %@", error, responseString, saveTrelloCardUrl);
